@@ -96,10 +96,15 @@ Remove-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Wi
 Write-Host "Disabling Remote Desktop..."
 Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server" -Name "fDenyTSConnections" -Value 1
 
+# Disable Autorun
+# Disables Autorun for all drives to prevent automatic execution of potentially malicious files.
+Write-Host "Disabling Autorun..."
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" -Name "NoDriveTypeAutoRun" -Value 255
+
 # Enable Automatic Updates
 # Configures Windows to automatically install updates to keep the system secure.
-Write-Host "Enabling automatic updates..."
-Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" -Name "AUOptions" -Value 4
+# Write-Host "Enabling automatic updates..."
+# Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" -Name "AUOptions" -Value 4
 
 # Configure Event Logs
 # Sets the maximum size for event logs to ensure sufficient space for logging.
@@ -111,4 +116,3 @@ wevtutil sl Application /ms:20480
 # Finalizing
 # Completion message and reminder to reboot the system.
 Write-Host "CIS Benchmark hardening complete. Please reboot the system to apply all changes."
-
